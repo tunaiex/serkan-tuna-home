@@ -285,6 +285,25 @@ textarea::placeholder{color:#aaa}
   line-height:1.5;
 }
 
+.wifi-password{
+  font-size:25px;
+  font-weight:bold;
+  letter-spacing:3px;
+  margin:12px 0;
+  word-break:break-all;
+}
+
+.wifi-network{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.wifi-icon{
+  font-size:48px;
+  margin-bottom:8px;
+}
+
 table{
   width:100%;
   border-collapse:collapse;
@@ -309,6 +328,8 @@ td,th{
   font-weight:bold;
   z-index:9999;
   box-shadow:0 10px 40px #000;
+  max-width:90%;
+  text-align:center;
 }
 
 .emergency{
@@ -382,32 +403,90 @@ hr{
     <div class="big" id="guestTimer">00:00</div>
   </div>
 
-  <div class="card">
-    <h2>📶 Wi-Fi</h2>
-    <p class="muted">
-      Wi-Fi bilgileri ev sahibinden alınabilir.
-    </p>
-    <button class="btn" onclick="showToast('📶 Wi-Fi bilgileri ev sahibinden alınabilir.')">
-      📶 Wi-Fi Bilgisini Göster
-    </button>
-  </div>
+
+  <!-- ================= WIFI ================= -->
 
   <div class="card">
+
+    <div class="center">
+      <div class="wifi-icon">📶</div>
+      <h2>Wi-Fi</h2>
+
+      <p class="muted">
+        Eve hoş geldin! Wi-Fi bilgilerini buradan alabilirsin.
+      </p>
+    </div>
+
+    <button class="btn" onclick="toggleWifi()">
+      📶 Wi-Fi Bilgisini Göster
+    </button>
+
+    <div id="wifiInfo" class="hidden">
+
+      <div class="item center">
+
+        <div class="muted">📡 Ağ Adı</div>
+
+        <div class="wifi-network">
+          SerkanTunaHome
+        </div>
+
+        <hr>
+
+        <div class="muted">🔐 Wi-Fi Şifresi</div>
+
+        <div class="wifi-password" id="wifiPassword">
+          ••••••
+        </div>
+
+      </div>
+
+      <button class="btn secondary" onclick="toggleWifiPassword()">
+        👁️ Şifreyi Göster / Gizle
+      </button>
+
+      <button class="btn success" onclick="copyWifiPassword()">
+        📋 Şifreyi Kopyala
+      </button>
+
+      <button class="btn" onclick="openWifiSettings()">
+        ⚙️ Wi-Fi Ayarlarını Aç
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= RATING ================= -->
+
+  <div class="card">
+
     <h2>⭐ Hizmete Puan Ver</h2>
 
     <div id="ratingForm">
 
-      <input id="guestName" placeholder="Adınız *">
+      <input
+        id="guestName"
+        placeholder="Adınız *"
+        maxlength="60"
+      >
 
       <div class="center">
+
         <span class="star" data-star="1">★</span>
         <span class="star" data-star="2">★</span>
         <span class="star" data-star="3">★</span>
         <span class="star" data-star="4">★</span>
         <span class="star" data-star="5">★</span>
+
       </div>
 
-      <textarea id="guestComment" placeholder="Yorumunuz (isteğe bağlı)"></textarea>
+      <textarea
+        id="guestComment"
+        placeholder="Yorumunuz (isteğe bağlı)"
+        maxlength="500"
+      ></textarea>
 
       <button class="btn success" onclick="submitRating()">
         ⭐ Puanı Gönder
@@ -416,12 +495,16 @@ hr{
     </div>
 
     <div id="ratingResult" class="center hidden"></div>
+
   </div>
 
+
   <div class="card center">
+
     <button class="btn secondary" onclick="ownerLogin()">
       👑 Ev Sahibi Modu
     </button>
+
   </div>
 
 </section>
@@ -439,20 +522,30 @@ hr{
   <div class="clock" id="ownerClock"></div>
 
   <div class="card">
+
     <div class="row">
+
       <button class="btn secondary" onclick="showGuest()">
         🏠 Misafir Ekranı
       </button>
+
       <button class="btn danger" onclick="logoutOwner()">
         🚪 Çıkış
       </button>
+
     </div>
+
   </div>
 
+
+  <!-- DASHBOARD -->
+
   <div class="card">
+
     <h2>📊 Dashboard</h2>
 
     <div class="grid">
+
       <div class="item center">
         🍽️
         <div class="big" id="dashFood">0</div>
@@ -476,35 +569,53 @@ hr{
         <div class="big" id="dashShopping">0</div>
         Alışveriş
       </div>
+
     </div>
+
   </div>
 
 
   <!-- EVDE KİM VAR -->
 
   <div class="card">
+
     <h2>🏠 Evde Kim Var?</h2>
 
     <div class="grid">
-      <button class="btn secondary" id="serkanHomeBtn" onclick="toggleHome('Serkan')">
+
+      <button
+        class="btn secondary"
+        id="serkanHomeBtn"
+        onclick="toggleHome('Serkan')"
+      >
         👨 Serkan
       </button>
 
-      <button class="btn secondary" id="tunaHomeBtn" onclick="toggleHome('Tuna')">
+      <button
+        class="btn secondary"
+        id="tunaHomeBtn"
+        onclick="toggleHome('Tuna')"
+      >
         👤 Tuna
       </button>
+
     </div>
 
     <div id="homeStatus" class="muted center"></div>
+
   </div>
 
 
   <!-- EMERGENCY -->
 
   <div class="card">
+
     <h2>🚨 Acil Ev Notu</h2>
 
-    <textarea id="emergencyInput" placeholder="Acil durum mesajı..."></textarea>
+    <textarea
+      id="emergencyInput"
+      placeholder="Acil durum mesajı..."
+    ></textarea>
 
     <button class="btn danger" onclick="saveEmergency()">
       🚨 Acil Notu Kaydet
@@ -513,141 +624,277 @@ hr{
     <button class="btn secondary" onclick="clearEmergency()">
       🗑️ Acil Notu Sil
     </button>
+
   </div>
 
 
   <!-- FOOD -->
 
   <div class="card">
+
     <h2>🍽️ Bugünün Yemekleri</h2>
 
     <div class="row">
-      <input id="foodInput" placeholder="Örn: Makarna">
-      <button class="btn success" onclick="addFood()">➕ Ekle</button>
+
+      <input
+        id="foodInput"
+        placeholder="Örn: Makarna"
+      >
+
+      <button class="btn success" onclick="addFood()">
+        ➕ Ekle
+      </button>
+
     </div>
 
     <div id="foodList"></div>
+
   </div>
 
 
   <!-- GENERAL TASKS -->
 
   <div class="card">
+
     <h2>🧹 Genel İşler</h2>
 
     <div class="row">
-      <input id="taskInput" placeholder="Yeni iş">
-      <button class="btn success" onclick="addGeneralTask()">➕ Ekle</button>
+
+      <input
+        id="taskInput"
+        placeholder="Yeni iş"
+      >
+
+      <button
+        class="btn success"
+        onclick="addGeneralTask()"
+      >
+        ➕ Ekle
+      </button>
+
     </div>
 
     <div id="generalTaskList"></div>
+
   </div>
 
 
-  <!-- PETS -->
+  <!-- ZEUS -->
 
   <div class="card">
+
     <h2>🐕 Zeus</h2>
 
     <div class="grid">
+
       <div class="item center">
+
         💩
+
         <div class="big" id="zeusPoop">0</div>
+
         Kaka
-        <button class="btn" onclick="petToilet('zeus','poop')">💩 +1</button>
+
+        <button
+          class="btn"
+          onclick="petToilet('zeus','poop')"
+        >
+          💩 +1
+        </button>
+
       </div>
 
       <div class="item center">
+
         💧
+
         <div class="big" id="zeusPee">0</div>
+
         Çiş
-        <button class="btn" onclick="petToilet('zeus','pee')">💧 +1</button>
+
+        <button
+          class="btn"
+          onclick="petToilet('zeus','pee')"
+        >
+          💧 +1
+        </button>
+
       </div>
+
     </div>
 
-    <input id="zeusFood" placeholder="Zeus yemek notu">
-    <input id="zeusWater" placeholder="Zeus su notu">
+    <input
+      id="zeusFood"
+      placeholder="Zeus yemek notu"
+    >
 
-    <button class="btn success" onclick="savePetInfo('zeus')">
+    <input
+      id="zeusWater"
+      placeholder="Zeus su notu"
+    >
+
+    <button
+      class="btn success"
+      onclick="savePetInfo('zeus')"
+    >
       💾 Zeus Bilgisini Kaydet
     </button>
+
   </div>
 
 
+  <!-- KURABİYE -->
+
   <div class="card">
+
     <h2>🐶 Kurabiye</h2>
 
     <div class="grid">
+
       <div class="item center">
+
         💩
+
         <div class="big" id="kurabiyePoop">0</div>
+
         Kaka
-        <button class="btn" onclick="petToilet('kurabiye','poop')">💩 +1</button>
+
+        <button
+          class="btn"
+          onclick="petToilet('kurabiye','poop')"
+        >
+          💩 +1
+        </button>
+
       </div>
 
       <div class="item center">
+
         💧
+
         <div class="big" id="kurabiyePee">0</div>
+
         Çiş
-        <button class="btn" onclick="petToilet('kurabiye','pee')">💧 +1</button>
+
+        <button
+          class="btn"
+          onclick="petToilet('kurabiye','pee')"
+        >
+          💧 +1
+        </button>
+
       </div>
+
     </div>
 
-    <input id="kurabiyeFood" placeholder="Kurabiye yemek notu">
-    <input id="kurabiyeWater" placeholder="Kurabiye su notu">
+    <input
+      id="kurabiyeFood"
+      placeholder="Kurabiye yemek notu"
+    >
 
-    <button class="btn success" onclick="savePetInfo('kurabiye')">
+    <input
+      id="kurabiyeWater"
+      placeholder="Kurabiye su notu"
+    >
+
+    <button
+      class="btn success"
+      onclick="savePetInfo('kurabiye')"
+    >
       💾 Kurabiye Bilgisini Kaydet
     </button>
+
   </div>
 
 
   <!-- HOME NOTE -->
 
   <div class="card">
+
     <h2>📝 Ev Notu</h2>
 
-    <textarea id="homeNoteInput" placeholder="Ev hakkında not..."></textarea>
+    <textarea
+      id="homeNoteInput"
+      placeholder="Ev hakkında not..."
+    ></textarea>
 
     <div class="row">
-      <button class="btn success" onclick="saveHomeNote()">💾 Kaydet</button>
-      <button class="btn danger" onclick="deleteHomeNote()">🗑️ Sil</button>
+
+      <button
+        class="btn success"
+        onclick="saveHomeNote()"
+      >
+        💾 Kaydet
+      </button>
+
+      <button
+        class="btn danger"
+        onclick="deleteHomeNote()"
+      >
+        🗑️ Sil
+      </button>
+
     </div>
 
-    <div id="homeNoteDisplay" class="item note"></div>
+    <div
+      id="homeNoteDisplay"
+      class="item note"
+    ></div>
+
   </div>
 
 
   <!-- SHOPPING -->
 
   <div class="card">
+
     <h2>🛒 Alışveriş</h2>
 
     <div class="row">
-      <input id="shoppingInput" placeholder="Alınacak şey">
-      <button class="btn success" onclick="addShopping()">➕ Ekle</button>
+
+      <input
+        id="shoppingInput"
+        placeholder="Alınacak şey"
+      >
+
+      <button
+        class="btn success"
+        onclick="addShopping()"
+      >
+        ➕ Ekle
+      </button>
+
     </div>
 
     <div id="shoppingList"></div>
+
   </div>
 
 
   <!-- WORK PANEL -->
 
   <div class="card">
+
     <h2>🧹 EV İŞLERİ KONTROL</h2>
 
-    <button class="btn" onclick="openWorkPanel()">
+    <button
+      class="btn"
+      onclick="openWorkPanel()"
+    >
       🧹 Ev İşlerine Gir
     </button>
+
   </div>
 
 
   <!-- RATINGS -->
 
   <div class="card">
+
     <h2>⭐ Misafir Puanları</h2>
+
     <div id="ratingsList"></div>
+
   </div>
 
 </section>
@@ -658,59 +905,97 @@ hr{
 <section id="workPanel" class="hidden">
 
   <div class="hero">
+
     <h1>🧹 EV İŞLERİ KONTROL</h1>
+
     <p>TEMİZLİK & EV DÜZENİ</p>
+
   </div>
 
+
   <div class="card" id="workLoginBox">
+
     <h2>🔐 İşler Paneli</h2>
 
-    <input id="workPin" type="password" placeholder="PIN">
+    <input
+      id="workPin"
+      type="password"
+      placeholder="PIN"
+    >
 
-    <button class="btn" onclick="checkWorkPin()">
+    <button
+      class="btn"
+      onclick="checkWorkPin()"
+    >
       🔓 Giriş
     </button>
 
-    <button class="btn secondary" onclick="backOwner()">
+    <button
+      class="btn secondary"
+      onclick="backOwner()"
+    >
       ← Geri
     </button>
+
   </div>
+
 
   <div id="workContent" class="hidden">
 
     <div class="card">
-      <button class="btn secondary" onclick="backOwner()">
+
+      <button
+        class="btn secondary"
+        onclick="backOwner()"
+      >
         ← Oda Menüsüne Dön
       </button>
+
     </div>
+
 
     <div id="roomMenu" class="grid">
 
-      <div class="room" onclick="openRoom('mutfak')">
+      <div
+        class="room"
+        onclick="openRoom('mutfak')"
+      >
         🍳
         <b>MUTFAK</b>
         <small>Temizlik & düzen</small>
       </div>
 
-      <div class="room" onclick="openRoom('salon')">
+      <div
+        class="room"
+        onclick="openRoom('salon')"
+      >
         🛋️
         <b>SALON</b>
         <small>Temizlik & düzen</small>
       </div>
 
-      <div class="room" onclick="openRoom('banyo')">
+      <div
+        class="room"
+        onclick="openRoom('banyo')"
+      >
         🚿
         <b>BANYO</b>
         <small>Temizlik & düzen</small>
       </div>
 
-      <div class="room" onclick="openRoom('yatak')">
+      <div
+        class="room"
+        onclick="openRoom('yatak')"
+      >
         🛏️
         <b>YATAK ODASI</b>
         <small>Temizlik & düzen</small>
       </div>
 
-      <div class="room" onclick="openRoom('hayvan')">
+      <div
+        class="room"
+        onclick="openRoom('hayvan')"
+      >
         🐾
         <b>HAYVAN ALANI</b>
         <small>Hayvan bakımı</small>
@@ -718,49 +1003,84 @@ hr{
 
     </div>
 
+
     <div id="activeRoom" class="hidden">
 
       <div class="card">
+
         <h2 id="activeRoomTitle"></h2>
 
         <div class="item">
+
           <b>📋 BUGÜN NE VAR?</b>
+
           <div id="todayTasks"></div>
+
         </div>
 
+
         <div class="item">
+
           <b>⚠️ SIRADAKİ İŞ</b>
+
           <div id="nextTask"></div>
+
         </div>
+
 
         <div class="item">
+
           <b>🧼 EV TEMİZLİK SKORU</b>
+
           <div class="progress">
-            <span id="cleanProgress" style="width:0%"></span>
+            <span
+              id="cleanProgress"
+              style="width:0%"
+            ></span>
           </div>
-          <div id="cleanScore" class="center"></div>
+
+          <div
+            id="cleanScore"
+            class="center"
+          ></div>
+
         </div>
 
-        <button class="btn success" onclick="completeAllDaily()">
+
+        <button
+          class="btn success"
+          onclick="completeAllDaily()"
+        >
           ⚡ BUGÜNÜ HALLETTİM
         </button>
 
+
         <div id="roomTasks"></div>
+
       </div>
 
+
       <div class="card">
+
         <h2>📊 Haftalık Temizlik İstatistikleri</h2>
+
         <div id="weeklyStats"></div>
+
       </div>
 
+
       <div class="card">
+
         <h2>📅 7 Günlük Temizlik Takvimi</h2>
+
         <div id="weeklyCalendar"></div>
+
       </div>
 
     </div>
 
   </div>
+
 </section>
 
 </div>
@@ -793,7 +1113,6 @@ import {
   updateDoc,
   getDoc,
   getDocs,
-  onSnapshot,
   query,
   orderBy,
   serverTimestamp
@@ -811,24 +1130,37 @@ const firebaseConfig = {
   measurementId: "G-FPFHC4ZYWH"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getFirestore(app);
 
 
 /* ============================================================
    GLOBAL
 ============================================================ */
 
-const WORK_PASSWORD = "1234";
+const WORK_PASSWORD="1234";
 
-let selectedRating = 0;
-let currentRoom = null;
-let ownerReady = false;
+const WIFI_NAME="SerkanTunaHome";
 
-let houseControls = {};
+const WIFI_PASSWORD="080326";
 
-const roomDefinitions = {
+let selectedRating=0;
+
+let currentRoom=null;
+
+let ownerReady=false;
+
+let houseControls={};
+
+
+/* ============================================================
+   ROOM DEFINITIONS
+============================================================ */
+
+const roomDefinitions={
 
   mutfak:[
     ["mutfak_cop","🗑️ ÇÖPÜ ATTIM",1],
@@ -871,6 +1203,7 @@ const roomDefinitions = {
     ["hayvan_alani","🧹 HAYVAN ALANINI TEMİZLEDİM",1],
     ["hayvan_kontrol","🐾 HAYVANLARI KONTROL ETTİM",1]
   ]
+
 };
 
 
@@ -879,6 +1212,7 @@ const roomDefinitions = {
 ============================================================ */
 
 function showToast(text){
+
   const box=document.getElementById("toastBox");
 
   box.innerHTML=
@@ -893,29 +1227,43 @@ window.showToast=showToast;
 
 
 function todayKey(){
-  return new Date().toISOString().slice(0,10);
+
+  return new Date()
+    .toISOString()
+    .slice(0,10);
+
 }
+
 
 function formatDate(ts){
 
-  if(!ts)return "Henüz yapılmadı";
+  if(!ts)
+    return "Henüz yapılmadı";
 
   let date;
 
-  if(ts?.toDate) date=ts.toDate();
-  else if(typeof ts==="number") date=new Date(ts);
-  else date=new Date(ts);
+  if(ts?.toDate)
+    date=ts.toDate();
+
+  else if(typeof ts==="number")
+    date=new Date(ts);
+
+  else
+    date=new Date(ts);
 
   return date.toLocaleString("tr-TR");
 }
 
+
 function escapeHtml(value=""){
+
   return String(value)
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+
 }
 
 
@@ -927,20 +1275,27 @@ function updateClock(){
 
   const now=new Date();
 
-  const text=now.toLocaleString("tr-TR",{
-    dateStyle:"full",
-    timeStyle:"medium"
-  });
+  const text=now.toLocaleString(
+    "tr-TR",
+    {
+      dateStyle:"full",
+      timeStyle:"medium"
+    }
+  );
 
-  document.getElementById("liveClock").textContent=text;
+  document.getElementById(
+    "liveClock"
+  ).textContent=text;
 
-  const ownerClock=document.getElementById("ownerClock");
+  const ownerClock=
+    document.getElementById("ownerClock");
 
   if(ownerClock)
     ownerClock.textContent=text;
 }
 
 setInterval(updateClock,1000);
+
 updateClock();
 
 
@@ -948,17 +1303,23 @@ updateClock();
    GUEST TIMER
 ============================================================ */
 
-let visitStart=sessionStorage.getItem("guestVisitStart");
+let visitStart=
+  sessionStorage.getItem(
+    "guestVisitStart"
+  );
 
 if(!visitStart){
 
-  visitStart=Date.now().toString();
+  visitStart=
+    Date.now().toString();
 
   sessionStorage.setItem(
     "guestVisitStart",
     visitStart
   );
+
 }
+
 
 function updateGuestTimer(){
 
@@ -967,57 +1328,188 @@ function updateGuestTimer(){
   );
 
   const min=Math.floor(seconds/60);
+
   const sec=seconds%60;
 
-  document.getElementById("guestTimer").textContent=
+  document.getElementById(
+    "guestTimer"
+  ).textContent=
     String(min).padStart(2,"0")+
     ":"+
     String(sec).padStart(2,"0");
 }
 
-setInterval(updateGuestTimer,1000);
+setInterval(
+  updateGuestTimer,
+  1000
+);
+
 updateGuestTimer();
+
+
+/* ============================================================
+   WIFI
+============================================================ */
+
+function toggleWifi(){
+
+  const box=
+    document.getElementById("wifiInfo");
+
+  box.classList.toggle("hidden");
+
+}
+
+window.toggleWifi=toggleWifi;
+
+
+function toggleWifiPassword(){
+
+  const password=
+    document.getElementById("wifiPassword");
+
+  if(password.textContent==="••••••"){
+
+    password.textContent=
+      WIFI_PASSWORD;
+
+  }else{
+
+    password.textContent=
+      "••••••";
+
+  }
+
+}
+
+window.toggleWifiPassword=
+  toggleWifiPassword;
+
+
+async function copyWifiPassword(){
+
+  try{
+
+    await navigator.clipboard.writeText(
+      WIFI_PASSWORD
+    );
+
+    showToast(
+      "📋 Wi-Fi şifresi kopyalandı."
+    );
+
+  }catch(error){
+
+    showToast(
+      "⚠️ Kopyalama başarısız. Şifreyi gösterip elle kopyalayabilirsin."
+    );
+
+  }
+
+}
+
+window.copyWifiPassword=
+  copyWifiPassword;
+
+
+function openWifiSettings(){
+
+  /*
+    Android Chrome her cihazda Wi-Fi ayarlarını
+    doğrudan açmaya izin vermeyebilir.
+    Önce Android intent bağlantısını deniyoruz.
+  */
+
+  try{
+
+    window.location.href=
+      "intent:#Intent;action=android.settings.WIFI_SETTINGS;end";
+
+    setTimeout(()=>{
+
+      showToast(
+        "⚙️ Wi-Fi ayarları açılamadıysa telefonun Wi-Fi ayarlarını elle aç."
+      );
+
+    },1000);
+
+  }catch(error){
+
+    showToast(
+      "⚙️ Telefonunun Wi-Fi ayarlarını açıp SerkanTunaHome ağına bağlan."
+    );
+
+  }
+
+}
+
+window.openWifiSettings=
+  openWifiSettings;
 
 
 /* ============================================================
    RATING
 ============================================================ */
 
-document.querySelectorAll(".star").forEach(star=>{
+document
+  .querySelectorAll(".star")
+  .forEach(star=>{
 
-  star.addEventListener("click",()=>{
+    star.addEventListener(
+      "click",
+      ()=>{
 
-    selectedRating=Number(star.dataset.star);
+        selectedRating=
+          Number(star.dataset.star);
 
-    document.querySelectorAll(".star").forEach(s=>{
-      s.classList.toggle(
-        "selected",
-        Number(s.dataset.star)<=selectedRating
-      );
-    });
+        document
+          .querySelectorAll(".star")
+          .forEach(s=>{
+
+            s.classList.toggle(
+              "selected",
+              Number(s.dataset.star)
+              <=selectedRating
+            );
+
+          });
+
+      }
+    );
 
   });
-
-});
 
 
 async function submitRating(){
 
-  const name=document.getElementById("guestName").value.trim();
+  const name=
+    document
+      .getElementById("guestName")
+      .value
+      .trim();
 
   if(!name){
-    showToast("⚠️ Adınızı yazın.");
+
+    showToast(
+      "⚠️ Adınızı yazın."
+    );
+
     return;
   }
 
   if(!selectedRating){
-    showToast("⭐ Bir puan seçin.");
+
+    showToast(
+      "⭐ Bir puan seçin."
+    );
+
     return;
   }
 
-  const duration=Math.floor(
-    (Date.now()-Number(visitStart))/1000
-  );
+  const duration=
+    Math.floor(
+      (Date.now()-Number(visitStart))/1000
+    );
 
   try{
 
@@ -1026,133 +1518,200 @@ async function submitRating(){
       {
         name:name.slice(0,60),
         rating:selectedRating,
-        comment:document.getElementById("guestComment").value.slice(0,500),
+        comment:
+          document
+            .getElementById("guestComment")
+            .value
+            .slice(0,500),
         duration,
         createdAt:serverTimestamp()
       }
     );
 
-    document.getElementById("ratingForm")
-      .classList.add("hidden");
+    document
+      .getElementById("ratingForm")
+      .classList
+      .add("hidden");
 
-    const result=document.getElementById("ratingResult");
+    const result=
+      document.getElementById(
+        "ratingResult"
+      );
 
-    result.classList.remove("hidden");
+    result.classList.remove(
+      "hidden"
+    );
 
     const messages={
-      1:"🖕🏻 SİKTİR OL GİT, GELME BİR DAHA.",
-      2:"BİR DAHA BEKLEMEYİZ. İYİ GÜNLER.",
-      3:"Memnun kalmadıysan, sen daha iyisini yaparsın artık 😌❤️",
-      4:"Sağol ❤️",
-      5:"❤️ HER ZAMAN BEKLERİZ ❤️"
+
+      1:
+        "🖕🏻 SİKTİR OL GİT, GELME BİR DAHA.",
+
+      2:
+        "BİR DAHA BEKLEMEYİZ. İYİ GÜNLER.",
+
+      3:
+        "Memnun kalmadıysan, sen daha iyisini yaparsın artık 😌❤️",
+
+      4:
+        "Sağol ❤️",
+
+      5:
+        "❤️ HER ZAMAN BEKLERİZ ❤️"
+
     };
 
     result.innerHTML=
-      `<div class="big">${selectedRating} ⭐</div>
-       <p>${messages[selectedRating]}</p>`;
+      `<div class="big">
+        ${selectedRating} ⭐
+       </div>
+       <p>
+        ${messages[selectedRating]}
+       </p>`;
 
-    showToast("⭐ Puan kaydedildi.");
+    showToast(
+      "⭐ Puan kaydedildi."
+    );
 
   }catch(error){
 
     console.error(error);
 
     showToast(
-      "❌ Puan kaydedilemedi. Firebase Rules ayarını kontrol edeceğiz."
+      "❌ Puan kaydedilemedi."
     );
+
   }
+
 }
 
-window.submitRating=submitRating;
+window.submitRating=
+  submitRating;
 
 
 /* ============================================================
    OWNER LOGIN
 ============================================================ */
 
-window.ownerLogin=async function(){
+window.ownerLogin=
+  async function(){
 
-  const email=prompt("👑 Firebase hesabının e-postası:");
+    const email=
+      prompt(
+        "👑 Firebase hesabının e-postası:"
+      );
 
-  if(!email)return;
+    if(!email)return;
 
-  const password=prompt("🔐 Firebase hesabının şifresi:");
+    const password=
+      prompt(
+        "🔐 Firebase hesabının şifresi:"
+      );
 
-  if(!password)return;
+    if(!password)return;
 
-  try{
+    try{
 
-    await signInWithEmailAndPassword(
-      auth,
-      email.trim(),
-      password
-    );
+      await signInWithEmailAndPassword(
+        auth,
+        email.trim(),
+        password
+      );
 
-    showToast("👑 Ev sahibi girişi başarılı.");
+      showToast(
+        "👑 Ev sahibi girişi başarılı."
+      );
 
-  }catch(error){
+    }catch(error){
 
-    console.error(error);
+      console.error(error);
 
-    showToast(
-      "❌ Giriş başarısız. E-posta veya şifreyi kontrol et."
-    );
+      showToast(
+        "❌ Giriş başarısız. E-posta veya şifreyi kontrol et."
+      );
+
+    }
+
+  };
+
+
+onAuthStateChanged(
+  auth,
+  user=>{
+
+    if(user){
+
+      ownerReady=true;
+
+      showOwner();
+
+    }
+
   }
-};
-
-
-onAuthStateChanged(auth,user=>{
-
-  if(user){
-
-    ownerReady=true;
-
-    showOwner();
-
-  }
-
-});
+);
 
 
 function showOwner(){
 
-  document.getElementById("guestPanel")
-    .classList.add("hidden");
+  document
+    .getElementById("guestPanel")
+    .classList
+    .add("hidden");
 
-  document.getElementById("ownerPanel")
-    .classList.remove("hidden");
+  document
+    .getElementById("ownerPanel")
+    .classList
+    .remove("hidden");
 
-  document.getElementById("workPanel")
-    .classList.add("hidden");
+  document
+    .getElementById("workPanel")
+    .classList
+    .add("hidden");
 
   loadOwnerData();
+
 }
+
 
 function showGuest(){
 
-  document.getElementById("guestPanel")
-    .classList.remove("hidden");
+  document
+    .getElementById("guestPanel")
+    .classList
+    .remove("hidden");
 
-  document.getElementById("ownerPanel")
-    .classList.add("hidden");
+  document
+    .getElementById("ownerPanel")
+    .classList
+    .add("hidden");
 
-  document.getElementById("workPanel")
-    .classList.add("hidden");
+  document
+    .getElementById("workPanel")
+    .classList
+    .add("hidden");
+
 }
 
-window.showGuest=showGuest;
+window.showGuest=
+  showGuest;
 
 
 async function logoutOwner(){
 
   await signOut(auth);
 
+  ownerReady=false;
+
   showGuest();
 
-  showToast("🚪 Çıkış yapıldı.");
+  showToast(
+    "🚪 Çıkış yapıldı."
+  );
+
 }
 
-window.logoutOwner=logoutOwner;
+window.logoutOwner=
+  logoutOwner;
 
 
 /* ============================================================
@@ -1161,36 +1720,55 @@ window.logoutOwner=logoutOwner;
 
 async function addFood(){
 
-  const input=document.getElementById("foodInput");
+  const input=
+    document.getElementById(
+      "foodInput"
+    );
 
-  const name=input.value.trim();
+  const name=
+    input.value.trim();
 
   if(!name)return;
 
-  const ref=doc(
-    collection(db,"food")
-  );
+  const ref=
+    doc(
+      collection(db,"food")
+    );
 
-  await setDoc(ref,{
-    name,
-    createdAt:serverTimestamp()
-  });
+  await setDoc(
+    ref,
+    {
+      name,
+      createdAt:
+        serverTimestamp()
+    }
+  );
 
   input.value="";
 
-  showToast("🍽️ Yemek eklendi.");
+  showToast(
+    "🍽️ Yemek eklendi."
+  );
+
+  loadFood();
+
 }
 
-window.addFood=addFood;
+window.addFood=
+  addFood;
 
 
 async function loadFood(){
 
-  const snap=await getDocs(
-    collection(db,"food")
-  );
+  const snap=
+    await getDocs(
+      collection(db,"food")
+    );
 
-  const list=document.getElementById("foodList");
+  const list=
+    document.getElementById(
+      "foodList"
+    );
 
   list.innerHTML="";
 
@@ -1199,27 +1777,45 @@ async function loadFood(){
     const data=item.data();
 
     list.innerHTML+=`
+
       <div class="item">
+
         🍽️ ${escapeHtml(data.name)}
-        <button class="btn danger"
-          onclick="deleteFood('${item.id}')">
+
+        <button
+          class="btn danger"
+          onclick="deleteFood('${item.id}')"
+        >
           🗑️ Sil
         </button>
+
       </div>
+
     `;
+
   });
 
-  document.getElementById("dashFood").textContent=snap.size;
+  document
+    .getElementById("dashFood")
+    .textContent=snap.size;
+
 }
 
-window.deleteFood=async function(id){
 
-  await deleteDoc(doc(db,"food",id));
+window.deleteFood=
+  async function(id){
 
-  loadFood();
+    await deleteDoc(
+      doc(db,"food",id)
+    );
 
-  showToast("🗑️ Yemek silindi.");
-};
+    loadFood();
+
+    showToast(
+      "🗑️ Yemek silindi."
+    );
+
+  };
 
 
 /* ============================================================
@@ -1228,9 +1824,13 @@ window.deleteFood=async function(id){
 
 async function addGeneralTask(){
 
-  const input=document.getElementById("taskInput");
+  const input=
+    document.getElementById(
+      "taskInput"
+    );
 
-  const text=input.value.trim();
+  const text=
+    input.value.trim();
 
   if(!text)return;
 
@@ -1239,27 +1839,36 @@ async function addGeneralTask(){
     {
       text,
       done:false,
-      createdAt:serverTimestamp()
+      createdAt:
+        serverTimestamp()
     }
   );
 
   input.value="";
 
-  showToast("🧹 İş eklendi.");
+  showToast(
+    "🧹 İş eklendi."
+  );
 
   loadGeneralTasks();
+
 }
 
-window.addGeneralTask=addGeneralTask;
+window.addGeneralTask=
+  addGeneralTask;
 
 
 async function loadGeneralTasks(){
 
-  const snap=await getDocs(
-    collection(db,"generalTasks")
-  );
+  const snap=
+    await getDocs(
+      collection(db,"generalTasks")
+    );
 
-  const list=document.getElementById("generalTaskList");
+  const list=
+    document.getElementById(
+      "generalTaskList"
+    );
 
   list.innerHTML="";
 
@@ -1268,110 +1877,175 @@ async function loadGeneralTasks(){
     const data=item.data();
 
     list.innerHTML+=`
-      <div class="item ${data.done?"done":""}">
-        <div>${data.done?"☑️":"☐"} ${escapeHtml(data.text)}</div>
+
+      <div
+        class="item ${data.done?"done":""}"
+      >
+
+        <div>
+          ${data.done?"☑️":"☐"}
+          ${escapeHtml(data.text)}
+        </div>
 
         <div class="row">
 
-          <button class="btn"
-            onclick="toggleGeneralTask('${item.id}',${!data.done})">
-            ${data.done?"↩️ Geri Al":"✅ Tamamladım"}
+          <button
+            class="btn"
+            onclick="toggleGeneralTask(
+              '${item.id}',
+              ${!data.done}
+            )"
+          >
+            ${
+              data.done
+              ?"↩️ Geri Al"
+              :"✅ Tamamladım"
+            }
           </button>
 
-          <button class="btn danger"
-            onclick="deleteGeneralTask('${item.id}')">
+          <button
+            class="btn danger"
+            onclick="deleteGeneralTask('${item.id}')"
+          >
             🗑️
           </button>
 
         </div>
+
       </div>
+
     `;
+
   });
 
-  document.getElementById("dashTasks").textContent=snap.size;
+  document
+    .getElementById("dashTasks")
+    .textContent=snap.size;
+
 }
 
-window.toggleGeneralTask=async function(id,value){
 
-  await updateDoc(
-    doc(db,"generalTasks",id),
-    {done:value}
-  );
+window.toggleGeneralTask=
+  async function(id,value){
 
-  loadGeneralTasks();
-};
+    await updateDoc(
+      doc(db,"generalTasks",id),
+      {
+        done:value
+      }
+    );
 
-window.deleteGeneralTask=async function(id){
+    loadGeneralTasks();
 
-  await deleteDoc(
-    doc(db,"generalTasks",id)
-  );
+  };
 
-  loadGeneralTasks();
 
-  showToast("🗑️ İş silindi.");
-};
+window.deleteGeneralTask=
+  async function(id){
+
+    await deleteDoc(
+      doc(db,"generalTasks",id)
+    );
+
+    loadGeneralTasks();
+
+    showToast(
+      "🗑️ İş silindi."
+    );
+
+  };
 
 
 /* ============================================================
-   HOME CONTROL
+   HOME STATUS
 ============================================================ */
 
 async function toggleHome(person){
 
-  const ref=doc(
-    db,
-    "houseControls",
-    "homeStatus"
+  const ref=
+    doc(
+      db,
+      "houseControls",
+      "homeStatus"
+    );
+
+  const snap=
+    await getDoc(ref);
+
+  const data=
+    snap.exists()
+    ?snap.data()
+    :{
+      Serkan:false,
+      Tuna:false
+    };
+
+  data[person]=
+    !data[person];
+
+  await setDoc(
+    ref,
+    data
   );
 
-  const snap=await getDoc(ref);
-
-  const data=snap.exists()
-    ? snap.data()
-    : {Serkan:false,Tuna:false};
-
-  data[person]=!data[person];
-
-  await setDoc(ref,data);
-
   renderHomeStatus(data);
+
 }
 
-window.toggleHome=toggleHome;
+window.toggleHome=
+  toggleHome;
 
 
 async function loadHomeStatus(){
 
-  const snap=await getDoc(
-    doc(db,"houseControls","homeStatus")
-  );
+  const snap=
+    await getDoc(
+      doc(
+        db,
+        "houseControls",
+        "homeStatus"
+      )
+    );
 
   if(snap.exists())
-    renderHomeStatus(snap.data());
+    renderHomeStatus(
+      snap.data()
+    );
+
 }
+
 
 function renderHomeStatus(data){
 
   const status=[];
 
-  if(data.Serkan)status.push("👨 Serkan");
-  if(data.Tuna)status.push("👤 Tuna");
+  if(data.Serkan)
+    status.push("👨 Serkan");
 
-  document.getElementById("homeStatus").textContent=
-    status.length
-      ? status.join(" • ")+" evde"
-      : "🏠 Evde kimse yok";
+  if(data.Tuna)
+    status.push("👤 Tuna");
 
-  document.getElementById("serkanHomeBtn")
-    .textContent=data.Serkan
+  document
+    .getElementById("homeStatus")
+    .textContent=
+      status.length
+      ?status.join(" • ")+" evde"
+      :"🏠 Evde kimse yok";
+
+  document
+    .getElementById("serkanHomeBtn")
+    .textContent=
+      data.Serkan
       ?"🟢 Serkan Evde"
       :"👨 Serkan Yok";
 
-  document.getElementById("tunaHomeBtn")
-    .textContent=data.Tuna
+  document
+    .getElementById("tunaHomeBtn")
+    .textContent=
+      data.Tuna
       ?"🟢 Tuna Evde"
       :"👤 Tuna Yok";
+
 }
 
 
@@ -1381,73 +2055,124 @@ function renderHomeStatus(data){
 
 async function saveEmergency(){
 
-  const text=document.getElementById("emergencyInput")
-    .value.trim();
+  const text=
+    document
+      .getElementById(
+        "emergencyInput"
+      )
+      .value
+      .trim();
 
   await setDoc(
-    doc(db,"houseControls","emergency"),
+    doc(
+      db,
+      "houseControls",
+      "emergency"
+    ),
     {
       text,
       active:!!text,
-      updatedAt:serverTimestamp()
+      updatedAt:
+        serverTimestamp()
     }
   );
 
-  showToast("🚨 Acil not kaydedildi.");
+  showToast(
+    "🚨 Acil not kaydedildi."
+  );
+
 }
 
-window.saveEmergency=saveEmergency;
+window.saveEmergency=
+  saveEmergency;
 
 
 async function clearEmergency(){
 
   await setDoc(
-    doc(db,"houseControls","emergency"),
+    doc(
+      db,
+      "houseControls",
+      "emergency"
+    ),
     {
       text:"",
       active:false,
-      updatedAt:serverTimestamp()
+      updatedAt:
+        serverTimestamp()
     }
   );
 
-  document.getElementById("emergencyInput").value="";
+  document
+    .getElementById(
+      "emergencyInput"
+    )
+    .value="";
 
-  showToast("🚨 Acil not silindi.");
+  showToast(
+    "🚨 Acil not silindi."
+  );
+
 }
 
-window.clearEmergency=clearEmergency;
+window.clearEmergency=
+  clearEmergency;
 
 
 async function loadEmergency(){
 
-  const snap=await getDoc(
-    doc(db,"houseControls","emergency")
-  );
+  const snap=
+    await getDoc(
+      doc(
+        db,
+        "houseControls",
+        "emergency"
+      )
+    );
 
-  if(!snap.exists())return;
+  if(!snap.exists())
+    return;
 
   const data=snap.data();
 
-  document.getElementById("emergencyInput").value=
-    data.text||"";
+  document
+    .getElementById(
+      "emergencyInput"
+    )
+    .value=
+      data.text||"";
 
   if(data.active && data.text){
 
-    const box=document.getElementById("emergencyBox");
+    const box=
+      document.getElementById(
+        "emergencyBox"
+      );
 
     box.innerHTML=`
+
       <div class="emergency">
+
         <div class="emergency-box">
+
           <h1>🚨 ACİL DURUM</h1>
-          <h2>${escapeHtml(data.text)}</h2>
+
+          <h2>
+            ${escapeHtml(data.text)}
+          </h2>
+
         </div>
+
       </div>
+
     `;
 
     setTimeout(()=>{
       box.innerHTML="";
     },5000);
+
   }
+
 }
 
 
@@ -1457,62 +2182,101 @@ async function loadEmergency(){
 
 async function saveHomeNote(){
 
-  const text=document.getElementById("homeNoteInput")
-    .value.trim();
+  const text=
+    document
+      .getElementById(
+        "homeNoteInput"
+      )
+      .value
+      .trim();
 
   await setDoc(
-    doc(db,"houseControls","homeNote"),
+    doc(
+      db,
+      "houseControls",
+      "homeNote"
+    ),
     {
       text,
-      updatedAt:serverTimestamp()
+      updatedAt:
+        serverTimestamp()
     }
   );
 
   renderHomeNote(text);
 
-  showToast("📝 Ev notu kaydedildi.");
+  showToast(
+    "📝 Ev notu kaydedildi."
+  );
+
 }
 
-window.saveHomeNote=saveHomeNote;
+window.saveHomeNote=
+  saveHomeNote;
 
 
 async function deleteHomeNote(){
 
   await setDoc(
-    doc(db,"houseControls","homeNote"),
+    doc(
+      db,
+      "houseControls",
+      "homeNote"
+    ),
     {
       text:"",
-      updatedAt:serverTimestamp()
+      updatedAt:
+        serverTimestamp()
     }
   );
 
   renderHomeNote("");
 
-  showToast("🗑️ Ev notu silindi.");
+  showToast(
+    "🗑️ Ev notu silindi."
+  );
+
 }
 
-window.deleteHomeNote=deleteHomeNote;
+window.deleteHomeNote=
+  deleteHomeNote;
 
 
 async function loadHomeNote(){
 
-  const snap=await getDoc(
-    doc(db,"houseControls","homeNote")
-  );
+  const snap=
+    await getDoc(
+      doc(
+        db,
+        "houseControls",
+        "homeNote"
+      )
+    );
 
   renderHomeNote(
     snap.exists()
-      ? snap.data().text||""
-      :""
+    ?snap.data().text||""
+    :""
   );
+
 }
+
 
 function renderHomeNote(text){
 
-  document.getElementById("homeNoteInput").value=text;
+  document
+    .getElementById(
+      "homeNoteInput"
+    )
+    .value=text;
 
-  document.getElementById("homeNoteDisplay").textContent=
-    text||"Henüz ev notu eklenmedi.";
+  document
+    .getElementById(
+      "homeNoteDisplay"
+    )
+    .textContent=
+      text||"Henüz ev notu eklenmedi.";
+
 }
 
 
@@ -1522,9 +2286,13 @@ function renderHomeNote(text){
 
 async function addShopping(){
 
-  const input=document.getElementById("shoppingInput");
+  const input=
+    document.getElementById(
+      "shoppingInput"
+    );
 
-  const text=input.value.trim();
+  const text=
+    input.value.trim();
 
   if(!text)return;
 
@@ -1533,7 +2301,8 @@ async function addShopping(){
     {
       text,
       done:false,
-      createdAt:serverTimestamp()
+      createdAt:
+        serverTimestamp()
     }
   );
 
@@ -1541,19 +2310,27 @@ async function addShopping(){
 
   loadShopping();
 
-  showToast("🛒 Alışveriş listesine eklendi.");
+  showToast(
+    "🛒 Alışveriş listesine eklendi."
+  );
+
 }
 
-window.addShopping=addShopping;
+window.addShopping=
+  addShopping;
 
 
 async function loadShopping(){
 
-  const snap=await getDocs(
-    collection(db,"shopping")
-  );
+  const snap=
+    await getDocs(
+      collection(db,"shopping")
+    );
 
-  const list=document.getElementById("shoppingList");
+  const list=
+    document.getElementById(
+      "shoppingList"
+    );
 
   list.innerHTML="";
 
@@ -1562,48 +2339,75 @@ async function loadShopping(){
     const data=item.data();
 
     list.innerHTML+=`
-      <div class="item ${data.done?"done":""}">
+
+      <div
+        class="item ${data.done?"done":""}"
+      >
+
         ${data.done?"☑️":"🛒"}
         ${escapeHtml(data.text)}
 
         <div class="row">
 
-          <button class="btn"
-            onclick="toggleShopping('${item.id}',${!data.done})">
+          <button
+            class="btn"
+            onclick="toggleShopping(
+              '${item.id}',
+              ${!data.done}
+            )"
+          >
             ${data.done?"↩️":"✅"}
           </button>
 
-          <button class="btn danger"
-            onclick="deleteShopping('${item.id}')">
+          <button
+            class="btn danger"
+            onclick="deleteShopping('${item.id}')"
+          >
             🗑️
           </button>
 
         </div>
+
       </div>
+
     `;
+
   });
 
-  document.getElementById("dashShopping").textContent=snap.size;
+  document
+    .getElementById(
+      "dashShopping"
+    )
+    .textContent=snap.size;
+
 }
 
-window.toggleShopping=async function(id,value){
 
-  await updateDoc(
-    doc(db,"shopping",id),
-    {done:value}
-  );
+window.toggleShopping=
+  async function(id,value){
 
-  loadShopping();
-};
+    await updateDoc(
+      doc(db,"shopping",id),
+      {
+        done:value
+      }
+    );
 
-window.deleteShopping=async function(id){
+    loadShopping();
 
-  await deleteDoc(
-    doc(db,"shopping",id)
-  );
+  };
 
-  loadShopping();
-};
+
+window.deleteShopping=
+  async function(id){
+
+    await deleteDoc(
+      doc(db,"shopping",id)
+    );
+
+    loadShopping();
+
+  };
 
 
 /* ============================================================
@@ -1612,54 +2416,73 @@ window.deleteShopping=async function(id){
 
 async function petToilet(pet,type){
 
-  const ref=doc(
-    db,
-    "pets",
-    pet
+  const ref=
+    doc(
+      db,
+      "pets",
+      pet
+    );
+
+  const snap=
+    await getDoc(ref);
+
+  const data=
+    snap.exists()
+    ?snap.data()
+    :{};
+
+  const today=
+    todayKey();
+
+  data[today]=
+    data[today]||{
+      poop:0,
+      pee:0
+    };
+
+  data[today][type]=
+    (data[today][type]||0)+1;
+
+  data.lastToiletAt=
+    Date.now();
+
+  await setDoc(
+    ref,
+    data
   );
 
-  const snap=await getDoc(ref);
-
-  const data=snap.exists()
-    ? snap.data()
-    : {};
-
-  const today=todayKey();
-
-  data[today]=data[today]||{
-    poop:0,
-    pee:0
-  };
-
-  data[today][type]=(data[today][type]||0)+1;
-
-  data.lastToiletAt=Date.now();
-
-  await setDoc(ref,data);
-
-  renderPet(pet,data[today]);
+  renderPet(
+    pet,
+    data[today]
+  );
 
   showToast(
     type==="poop"
-      ?"💩 Kaka kaydedildi."
-      :"💧 Çiş kaydedildi."
+    ?"💩 Kaka kaydedildi."
+    :"💧 Çiş kaydedildi."
   );
+
 }
 
-window.petToilet=petToilet;
+window.petToilet=
+  petToilet;
 
 
 async function loadPet(pet){
 
-  const snap=await getDoc(
-    doc(db,"pets",pet)
-  );
+  const snap=
+    await getDoc(
+      doc(db,"pets",pet)
+    );
 
   if(!snap.exists()){
 
     renderPet(
       pet,
-      {poop:0,pee:0}
+      {
+        poop:0,
+        pee:0
+      }
     );
 
     return;
@@ -1669,63 +2492,108 @@ async function loadPet(pet){
 
   renderPet(
     pet,
-    data[todayKey()]||{poop:0,pee:0}
+    data[todayKey()]||{
+      poop:0,
+      pee:0
+    }
   );
 
   if(pet==="zeus"){
 
-    document.getElementById("zeusFood").value=
-      data.food||"";
+    document
+      .getElementById(
+        "zeusFood"
+      )
+      .value=
+        data.food||"";
 
-    document.getElementById("zeusWater").value=
-      data.water||"";
+    document
+      .getElementById(
+        "zeusWater"
+      )
+      .value=
+        data.water||"";
+
   }
 
   if(pet==="kurabiye"){
 
-    document.getElementById("kurabiyeFood").value=
-      data.food||"";
+    document
+      .getElementById(
+        "kurabiyeFood"
+      )
+      .value=
+        data.food||"";
 
-    document.getElementById("kurabiyeWater").value=
-      data.water||"";
+    document
+      .getElementById(
+        "kurabiyeWater"
+      )
+      .value=
+        data.water||"";
+
   }
+
 }
+
 
 function renderPet(pet,data){
 
   if(pet==="zeus"){
 
-    document.getElementById("zeusPoop").textContent=
-      data.poop||0;
+    document
+      .getElementById(
+        "zeusPoop"
+      )
+      .textContent=
+        data.poop||0;
 
-    document.getElementById("zeusPee").textContent=
-      data.pee||0;
+    document
+      .getElementById(
+        "zeusPee"
+      )
+      .textContent=
+        data.pee||0;
+
   }
 
   if(pet==="kurabiye"){
 
-    document.getElementById("kurabiyePoop").textContent=
-      data.poop||0;
+    document
+      .getElementById(
+        "kurabiyePoop"
+      )
+      .textContent=
+        data.poop||0;
 
-    document.getElementById("kurabiyePee").textContent=
-      data.pee||0;
+    document
+      .getElementById(
+        "kurabiyePee"
+      )
+      .textContent=
+        data.pee||0;
+
   }
+
 }
 
 
 async function savePetInfo(pet){
 
-  const ref=doc(
-    db,
-    "pets",
-    pet
-  );
+  const ref=
+    doc(
+      db,
+      "pets",
+      pet
+    );
 
-  const snap=await getDoc(ref);
+  const snap=
+    await getDoc(ref);
 
-  const old=snap.exists()
-    ? snap.data()
-    : {};
+  const old=
+    snap.exists()
+    ?snap.data()
+    :{};
 
   const data={
     ...old
@@ -1734,27 +2602,52 @@ async function savePetInfo(pet){
   if(pet==="zeus"){
 
     data.food=
-      document.getElementById("zeusFood").value;
+      document
+        .getElementById(
+          "zeusFood"
+        )
+        .value;
 
     data.water=
-      document.getElementById("zeusWater").value;
+      document
+        .getElementById(
+          "zeusWater"
+        )
+        .value;
+
   }
 
   if(pet==="kurabiye"){
 
     data.food=
-      document.getElementById("kurabiyeFood").value;
+      document
+        .getElementById(
+          "kurabiyeFood"
+        )
+        .value;
 
     data.water=
-      document.getElementById("kurabiyeWater").value;
+      document
+        .getElementById(
+          "kurabiyeWater"
+        )
+        .value;
+
   }
 
-  await setDoc(ref,data);
+  await setDoc(
+    ref,
+    data
+  );
 
-  showToast("🐾 Hayvan bilgisi kaydedildi.");
+  showToast(
+    "🐾 Hayvan bilgisi kaydedildi."
+  );
+
 }
 
-window.savePetInfo=savePetInfo;
+window.savePetInfo=
+  savePetInfo;
 
 
 /* ============================================================
@@ -1763,56 +2656,99 @@ window.savePetInfo=savePetInfo;
 
 function openWorkPanel(){
 
-  document.getElementById("guestPanel")
-    .classList.add("hidden");
+  document
+    .getElementById(
+      "guestPanel"
+    )
+    .classList
+    .add("hidden");
 
-  document.getElementById("ownerPanel")
-    .classList.add("hidden");
+  document
+    .getElementById(
+      "ownerPanel"
+    )
+    .classList
+    .add("hidden");
 
-  document.getElementById("workPanel")
-    .classList.remove("hidden");
+  document
+    .getElementById(
+      "workPanel"
+    )
+    .classList
+    .remove("hidden");
+
 }
 
-window.openWorkPanel=openWorkPanel;
+window.openWorkPanel=
+  openWorkPanel;
 
 
 function checkWorkPin(){
 
-  const pin=document.getElementById("workPin").value;
+  const pin=
+    document
+      .getElementById(
+        "workPin"
+      )
+      .value;
 
   if(pin!==WORK_PASSWORD){
 
-    showToast("❌ PIN yanlış.");
+    showToast(
+      "❌ PIN yanlış."
+    );
+
     return;
   }
 
-  document.getElementById("workLoginBox")
-    .classList.add("hidden");
+  document
+    .getElementById(
+      "workLoginBox"
+    )
+    .classList
+    .add("hidden");
 
-  document.getElementById("workContent")
-    .classList.remove("hidden");
+  document
+    .getElementById(
+      "workContent"
+    )
+    .classList
+    .remove("hidden");
+
 }
 
-window.checkWorkPin=checkWorkPin;
+window.checkWorkPin=
+  checkWorkPin;
 
 
 function backOwner(){
 
   if(ownerReady){
 
-    document.getElementById("workPanel")
-      .classList.add("hidden");
+    document
+      .getElementById(
+        "workPanel"
+      )
+      .classList
+      .add("hidden");
 
-    document.getElementById("ownerPanel")
-      .classList.remove("hidden");
+    document
+      .getElementById(
+        "ownerPanel"
+      )
+      .classList
+      .remove("hidden");
 
   }else{
 
     showGuest();
+
   }
+
 }
 
-window.backOwner=backOwner;
+window.backOwner=
+  backOwner;
 
 
 /* ============================================================
@@ -1823,57 +2759,88 @@ function makeDefaultRoomData(){
 
   const result={};
 
-  for(const room in roomDefinitions){
+  for(
+    const room in roomDefinitions
+  ){
 
     result[room]=[];
 
-    roomDefinitions[room].forEach(([id,name,days])=>{
+    roomDefinitions[room]
+      .forEach(
+        ([id,name,days])=>{
 
-      result[room].push({
-        id,
-        name,
-        days,
-        lastCompleted:null,
-        history:[],
-        note:""
-      });
+          result[room].push({
 
-    });
+            id,
+
+            name,
+
+            days,
+
+            lastCompleted:null,
+
+            history:[],
+
+            note:""
+
+          });
+
+        }
+      );
 
   }
 
   return result;
+
 }
 
 
 async function loadHouseControls(){
 
-  const snap=await getDoc(
-    doc(db,"houseControls","cleaning")
-  );
+  const snap=
+    await getDoc(
+      doc(
+        db,
+        "houseControls",
+        "cleaning"
+      )
+    );
 
   if(snap.exists()){
 
-    houseControls=snap.data();
+    houseControls=
+      snap.data();
 
   }else{
 
-    houseControls=makeDefaultRoomData();
+    houseControls=
+      makeDefaultRoomData();
 
     await setDoc(
-      doc(db,"houseControls","cleaning"),
+      doc(
+        db,
+        "houseControls",
+        "cleaning"
+      ),
       houseControls
     );
+
   }
+
 }
 
 
 async function saveHouseControls(){
 
   await setDoc(
-    doc(db,"houseControls","cleaning"),
+    doc(
+      db,
+      "houseControls",
+      "cleaning"
+    ),
     houseControls
   );
+
 }
 
 
@@ -1885,51 +2852,83 @@ function openRoom(room){
 
   currentRoom=room;
 
-  document.getElementById("roomMenu")
-    .classList.add("hidden");
+  document
+    .getElementById(
+      "roomMenu"
+    )
+    .classList
+    .add("hidden");
 
-  document.getElementById("activeRoom")
-    .classList.remove("hidden");
+  document
+    .getElementById(
+      "activeRoom"
+    )
+    .classList
+    .remove("hidden");
 
   const titles={
+
     mutfak:"🍳 MUTFAK",
+
     salon:"🛋️ SALON",
+
     banyo:"🚿 BANYO",
+
     yatak:"🛏️ YATAK ODASI",
+
     hayvan:"🐾 HAYVAN ALANI"
+
   };
 
-  document.getElementById("activeRoomTitle")
-    .textContent=titles[room];
+  document
+    .getElementById(
+      "activeRoomTitle"
+    )
+    .textContent=
+      titles[room];
 
   renderRoom();
+
 }
 
-window.openRoom=openRoom;
+window.openRoom=
+  openRoom;
 
 
 function renderRoom(){
 
   if(!currentRoom)return;
 
-  const tasks=houseControls[currentRoom]||[];
+  const tasks=
+    houseControls[currentRoom]||[];
 
-  const list=document.getElementById("roomTasks");
+  const list=
+    document.getElementById(
+      "roomTasks"
+    );
 
   list.innerHTML="";
 
   tasks.forEach(task=>{
 
-    const state=getTaskState(task);
+    const state=
+      getTaskState(task);
 
     list.innerHTML+=`
+
       <div class="item">
 
         <div class="row">
 
           <div>
-            <b>${escapeHtml(task.name)}</b>
-            <div class="status ${state.class}">
+
+            <b>
+              ${escapeHtml(task.name)}
+            </b>
+
+            <div
+              class="status ${state.class}"
+            >
               ${state.label}
             </div>
 
@@ -1938,45 +2937,64 @@ function renderRoom(){
             </div>
 
             <div class="muted">
-              Son: ${formatDate(task.lastCompleted)}
+              Son:
+              ${formatDate(task.lastCompleted)}
             </div>
 
             <div class="muted">
-              Tekrar: ${task.days} gün
+              Tekrar:
+              ${task.days} gün
             </div>
+
           </div>
 
-          <button class="btn success"
-            onclick="completeRoomTask('${task.id}')">
+          <button
+            class="btn success"
+            onclick="completeRoomTask('${task.id}')"
+          >
             🟢 TAMAMLANDI
           </button>
 
         </div>
 
         <div class="muted">
-          Son 7 gün: ${(task.history||[]).length} kayıt
+          Son 7 gün:
+          ${(task.history||[]).length}
+          kayıt
         </div>
 
-        <button class="btn secondary"
-          onclick="taskNote('${task.id}')">
+        <button
+          class="btn secondary"
+          onclick="taskNote('${task.id}')"
+        >
           📝 Not
         </button>
 
         ${
           task.note
-          ? `<div class="item">📝 ${escapeHtml(task.note)}</div>`
+          ?
+          `<div class="item">
+             📝 ${escapeHtml(task.note)}
+           </div>`
           :""
         }
 
       </div>
+
     `;
+
   });
 
   renderTodayTasks(tasks);
+
   renderNextTask(tasks);
+
   renderCleanScore(tasks);
+
   renderWeeklyStats(tasks);
+
   renderCalendar(tasks);
+
 }
 
 
@@ -1985,66 +3003,98 @@ function getTaskState(task){
   if(!task.lastCompleted){
 
     return {
+
       class:"red",
+
       label:"🔴 SÜRESİ DOLDU",
+
       countdown:"+ hiç yapılmadı"
+
     };
+
   }
 
-  const interval=task.days*86400000;
+  const interval=
+    task.days*86400000;
 
-  const elapsed=Date.now()-Number(task.lastCompleted);
+  const elapsed=
+    Date.now()-
+    Number(task.lastCompleted);
 
-  const remaining=interval-elapsed;
+  const remaining=
+    interval-elapsed;
 
   if(remaining<=0){
 
-    const overdue=Math.abs(remaining);
+    const overdue=
+      Math.abs(remaining);
 
     return {
+
       class:"red",
+
       label:"🔴 SÜRESİ DOLDU",
-      countdown:"+"+formatDuration(overdue)
+
+      countdown:
+        "+"+
+        formatDuration(overdue)
+
     };
+
   }
 
   if(remaining<86400000){
 
     return {
+
       class:"yellow",
+
       label:"🟡 YAKLAŞIYOR",
-      countdown:formatDuration(remaining)
+
+      countdown:
+        formatDuration(remaining)
+
     };
+
   }
 
   return {
+
     class:"green",
+
     label:"🟢 GÜNCEL",
-    countdown:formatDuration(remaining)
+
+    countdown:
+      formatDuration(remaining)
+
   };
+
 }
 
 
 function formatDuration(ms){
 
-  const total=Math.floor(ms/1000);
+  const total=
+    Math.floor(ms/1000);
 
-  const days=Math.floor(total/86400);
+  const days=
+    Math.floor(total/86400);
 
-  const hours=Math.floor(
-    (total%86400)/3600
-  );
+  const hours=
+    Math.floor(
+      (total%86400)/3600
+    );
 
-  const mins=Math.floor(
-    (total%3600)/60
-  );
-
-  const secs=total%60;
+  const mins=
+    Math.floor(
+      (total%3600)/60
+    );
 
   if(days>0)
     return `${days}g ${hours}s`;
 
   return `${hours}s ${mins}dk`;
+
 }
 
 
@@ -2054,23 +3104,31 @@ function formatDuration(ms){
 
 async function completeRoomTask(id){
 
-  const task=houseControls[currentRoom]
-    .find(x=>x.id===id);
+  const task=
+    houseControls[currentRoom]
+      .find(x=>x.id===id);
 
   if(!task)return;
 
-  const now=Date.now();
+  const now=
+    Date.now();
 
-  task.lastCompleted=now;
+  task.lastCompleted=
+    now;
 
-  task.history=task.history||[];
+  task.history=
+    task.history||[];
 
   task.history.push(now);
 
-  const sevenDays=Date.now()-7*86400000;
+  const sevenDays=
+    Date.now()-
+    7*86400000;
 
-  task.history=task.history
-    .filter(t=>Number(t)>=sevenDays);
+  task.history=
+    task.history.filter(
+      t=>Number(t)>=sevenDays
+    );
 
   await saveHouseControls();
 
@@ -2079,9 +3137,11 @@ async function completeRoomTask(id){
   showToast(
     "🟢 TAMAMLANDI • Sayaç yeniden başladı"
   );
+
 }
 
-window.completeRoomTask=completeRoomTask;
+window.completeRoomTask=
+  completeRoomTask;
 
 
 /* ============================================================
@@ -2090,34 +3150,46 @@ window.completeRoomTask=completeRoomTask;
 
 async function completeAllDaily(){
 
-  const tasks=houseControls[currentRoom]||[];
+  const tasks=
+    houseControls[currentRoom]||[];
 
-  const now=Date.now();
+  const now=
+    Date.now();
 
   tasks.forEach(task=>{
 
-    if(task.days!==1)return;
+    if(task.days!==1)
+      return;
 
-    task.lastCompleted=now;
+    task.lastCompleted=
+      now;
 
-    task.history=task.history||[];
+    task.history=
+      task.history||[];
 
     task.history.push(now);
 
     task.history=
       task.history.filter(
-        t=>Number(t)>=now-7*86400000
+        t=>
+          Number(t)>=
+          now-7*86400000
       );
+
   });
 
   await saveHouseControls();
 
   renderRoom();
 
-  showToast("⚡ Bugünkü günlük işler halledildi.");
+  showToast(
+    "⚡ Bugünkü günlük işler halledildi."
+  );
+
 }
 
-window.completeAllDaily=completeAllDaily;
+window.completeAllDaily=
+  completeAllDaily;
 
 
 /* ============================================================
@@ -2126,57 +3198,79 @@ window.completeAllDaily=completeAllDaily;
 
 async function taskNote(id){
 
-  const task=houseControls[currentRoom]
-    .find(x=>x.id===id);
+  const task=
+    houseControls[currentRoom]
+      .find(x=>x.id===id);
 
   if(!task)return;
 
-  const note=prompt(
-    "📝 Bu iş için not:",
-    task.note||""
-  );
+  const note=
+    prompt(
+      "📝 Bu iş için not:",
+      task.note||""
+    );
 
-  if(note===null)return;
+  if(note===null)
+    return;
 
-  task.note=note.slice(0,300);
+  task.note=
+    note.slice(0,300);
 
   await saveHouseControls();
 
   renderRoom();
+
 }
 
-window.taskNote=taskNote;
+window.taskNote=
+  taskNote;
 
 
 /* ============================================================
-   TODAY
+   TODAY TASKS
 ============================================================ */
 
 function renderTodayTasks(tasks){
 
-  const box=document.getElementById("todayTasks");
+  const box=
+    document.getElementById(
+      "todayTasks"
+    );
 
-  const today=tasks.filter(task=>{
+  const today=
+    tasks.filter(task=>{
 
-    if(!task.lastCompleted)return true;
+      if(!task.lastCompleted)
+        return true;
 
-    const remaining=
-      task.days*86400000-
-      (Date.now()-Number(task.lastCompleted));
+      const remaining=
+        task.days*86400000-
+        (
+          Date.now()-
+          Number(task.lastCompleted)
+        );
 
-    return remaining<=86400000;
-  });
+      return remaining<=86400000;
+
+    });
 
   if(!today.length){
 
-    box.innerHTML="✅ Bugün için acil iş yok.";
+    box.innerHTML=
+      "✅ Bugün için acil iş yok.";
 
     return;
+
   }
 
-  box.innerHTML=today.map(task=>
-    `• ${escapeHtml(task.name)}`
-  ).join("<br>");
+  box.innerHTML=
+    today
+      .map(
+        task=>
+          `• ${escapeHtml(task.name)}`
+      )
+      .join("<br>");
+
 }
 
 
@@ -2186,21 +3280,25 @@ function renderTodayTasks(tasks){
 
 function renderNextTask(tasks){
 
-  const box=document.getElementById("nextTask");
+  const box=
+    document.getElementById(
+      "nextTask"
+    );
 
   if(!tasks.length){
 
-    box.textContent="Yok";
+    box.textContent=
+      "Yok";
 
     return;
+
   }
 
   let next=null;
+
   let smallest=Infinity;
 
   tasks.forEach(task=>{
-
-    const state=getTaskState(task);
 
     let remaining=0;
 
@@ -2208,7 +3306,10 @@ function renderNextTask(tasks){
 
       remaining=
         task.days*86400000-
-        (Date.now()-Number(task.lastCompleted));
+        (
+          Date.now()-
+          Number(task.lastCompleted)
+        );
 
     }
 
@@ -2218,13 +3319,18 @@ function renderNextTask(tasks){
     if(remaining<smallest){
 
       smallest=remaining;
+
       next=task;
+
     }
+
   });
 
-  box.innerHTML=next
-    ? `${escapeHtml(next.name)}`
+  box.innerHTML=
+    next
+    ?escapeHtml(next.name)
     :"Yok";
+
 }
 
 
@@ -2236,25 +3342,48 @@ function renderCleanScore(tasks){
 
   if(!tasks.length){
 
-    document.getElementById("cleanScore").textContent="0%";
-    document.getElementById("cleanProgress").style.width="0%";
+    document
+      .getElementById(
+        "cleanScore"
+      )
+      .textContent="0%";
+
+    document
+      .getElementById(
+        "cleanProgress"
+      )
+      .style.width="0%";
 
     return;
+
   }
 
-  const good=tasks.filter(
-    task=>getTaskState(task).class==="green"
-  ).length;
+  const good=
+    tasks.filter(
+      task=>
+        getTaskState(task)
+          .class==="green"
+    ).length;
 
-  const percent=Math.round(
-    good/tasks.length*100
-  );
+  const percent=
+    Math.round(
+      good/tasks.length*100
+    );
 
-  document.getElementById("cleanScore").textContent=
-    `${percent}%`;
+  document
+    .getElementById(
+      "cleanScore"
+    )
+    .textContent=
+      `${percent}%`;
 
-  document.getElementById("cleanProgress")
-    .style.width=percent+"%";
+  document
+    .getElementById(
+      "cleanProgress"
+    )
+    .style.width=
+      percent+"%";
+
 }
 
 
@@ -2264,17 +3393,31 @@ function renderCleanScore(tasks){
 
 function renderWeeklyStats(tasks){
 
-  const box=document.getElementById("weeklyStats");
+  const box=
+    document.getElementById(
+      "weeklyStats"
+    );
 
-  const total=tasks.reduce(
-    (sum,t)=>sum+(t.history||[]).length,
-    0
-  );
+  const total=
+    tasks.reduce(
+      (sum,t)=>
+        sum+
+        (t.history||[]).length,
+      0
+    );
 
   box.innerHTML=`
-    <div class="big">${total}</div>
-    <div class="muted">Son 7 gündeki tamamlanan işler</div>
+
+    <div class="big">
+      ${total}
+    </div>
+
+    <div class="muted">
+      Son 7 gündeki tamamlanan işler
+    </div>
+
   `;
+
 }
 
 
@@ -2284,41 +3427,64 @@ function renderWeeklyStats(tasks){
 
 function renderCalendar(tasks){
 
-  const box=document.getElementById("weeklyCalendar");
+  const box=
+    document.getElementById(
+      "weeklyCalendar"
+    );
 
   let html="";
 
   for(let i=6;i>=0;i--){
 
-    const date=new Date(
-      Date.now()-i*86400000
-    );
+    const date=
+      new Date(
+        Date.now()-
+        i*86400000
+      );
 
-    const key=date.toISOString().slice(0,10);
+    const key=
+      date
+        .toISOString()
+        .slice(0,10);
 
     let count=0;
 
     tasks.forEach(task=>{
 
-      (task.history||[]).forEach(timestamp=>{
+      (task.history||[])
+        .forEach(timestamp=>{
 
-        const d=new Date(timestamp)
-          .toISOString()
-          .slice(0,10);
+          const d=
+            new Date(timestamp)
+              .toISOString()
+              .slice(0,10);
 
-        if(d===key)count++;
-      });
+          if(d===key)
+            count++;
+
+        });
+
     });
 
     html+=`
+
       <div class="item">
-        📅 ${date.toLocaleDateString("tr-TR")}
-        <b>${count}</b> iş
+
+        📅
+        ${date.toLocaleDateString("tr-TR")}
+
+        <b>
+          ${count} iş
+        </b>
+
       </div>
+
     `;
+
   }
 
   box.innerHTML=html;
+
 }
 
 
@@ -2328,60 +3494,114 @@ function renderCalendar(tasks){
 
 async function loadRatings(){
 
-  const snap=await getDocs(
-    query(
-      collection(db,"ratings"),
-      orderBy("createdAt","desc")
-    )
-  );
+  const snap=
+    await getDocs(
+      query(
+        collection(
+          db,
+          "ratings"
+        ),
+        orderBy(
+          "createdAt",
+          "desc"
+        )
+      )
+    );
 
-  const box=document.getElementById("ratingsList");
+  const box=
+    document.getElementById(
+      "ratingsList"
+    );
 
   box.innerHTML="";
 
   snap.forEach(item=>{
 
-    const data=item.data();
+    const data=
+      item.data();
 
     box.innerHTML+=`
+
       <div class="item">
 
-        <b>${escapeHtml(data.name||"İsimsiz")}</b>
+        <b>
+          ${escapeHtml(
+            data.name||"İsimsiz"
+          )}
+        </b>
 
         <div>
-          ${"⭐".repeat(Number(data.rating)||0)}
+          ${
+            "⭐".repeat(
+              Number(data.rating)||0
+            )
+          }
         </div>
 
         <div class="note">
-          ${escapeHtml(data.comment||"Yorum yok")}
+          ${
+            escapeHtml(
+              data.comment||"Yorum yok"
+            )
+          }
         </div>
 
         <div class="muted">
-          ${formatDate(data.createdAt)}
+          ${formatDate(
+            data.createdAt
+          )}
         </div>
 
-        <button class="btn danger"
-          onclick="deleteRating('${item.id}')">
+        <div class="muted">
+          Ziyaret:
+          ${
+            formatDuration(
+              (Number(data.duration)||0)
+              *1000
+            )
+          }
+        </div>
+
+        <button
+          class="btn danger"
+          onclick="deleteRating('${item.id}')"
+        >
           🗑️ Sil
         </button>
 
       </div>
+
     `;
+
   });
 
-  document.getElementById("dashRatings").textContent=snap.size;
+  document
+    .getElementById(
+      "dashRatings"
+    )
+    .textContent=snap.size;
+
 }
 
-window.deleteRating=async function(id){
 
-  await deleteDoc(
-    doc(db,"ratings",id)
-  );
+window.deleteRating=
+  async function(id){
 
-  loadRatings();
+    await deleteDoc(
+      doc(
+        db,
+        "ratings",
+        id
+      )
+    );
 
-  showToast("🗑️ Puan silindi.");
-};
+    loadRatings();
+
+    showToast(
+      "🗑️ Puan silindi."
+    );
+
+  };
 
 
 /* ============================================================
@@ -2393,6 +3613,7 @@ async function loadOwnerData(){
   try{
 
     await loadFood();
+
     await loadGeneralTasks();
 
     await loadHomeStatus();
@@ -2404,6 +3625,7 @@ async function loadOwnerData(){
     await loadShopping();
 
     await loadPet("zeus");
+
     await loadPet("kurabiye");
 
     await loadRatings();
@@ -2417,23 +3639,32 @@ async function loadOwnerData(){
     showToast(
       "⚠️ Firebase verileri yüklenirken hata oluştu."
     );
+
   }
+
 }
 
 
 /* ============================================================
-   REFRESH WORK PANEL
+   WORK PANEL LIVE REFRESH
 ============================================================ */
 
 setInterval(()=>{
 
+  const workPanel=
+    document.getElementById(
+      "workPanel"
+    );
+
   if(
-    !document.getElementById("workPanel")
-      .classList.contains("hidden") &&
+    !workPanel
+      .classList
+      .contains("hidden") &&
     currentRoom
   ){
 
     renderRoom();
+
   }
 
 },1000);
